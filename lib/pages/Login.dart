@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:school/utils/validity.dart';
+import 'package:school/models/admin.dart';
+import 'package:school/models/student.dart';
+import 'package:school/models/teacher.dart';
+import 'package:school/utils/database_helper.dart';
+
 
 class Login extends StatefulWidget {
   @override
@@ -9,10 +13,16 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _name = TextEditingController();
   TextEditingController _password = TextEditingController();
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  Teacher teacher;
+  Admin admin;
+  List<Student> studentList;
 
-   Check path = Check();
   @override
   Widget build(BuildContext context) {
+      if (studentList == null) {
+			studentList = List<Student>();
+		}
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -111,9 +121,7 @@ class _LoginState extends State<Login> {
                         radius: 50,
                       ),
                       onTap: () {
-                          if(path.check(_name.text, _password.text)){
-                            print('true');
-                          }
+                        check(_name.text, _password.text);
                       },
                     ),
                     
@@ -125,6 +133,7 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+    
   }
 
   Padding title() {
@@ -141,5 +150,34 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+
+
+
   }
+     
+bool check(String name,String password){
+    if(name == teacher.name ){
+      if(password == teacher.password){
+        print('teacher');
+        return true;
+        }
+        }
+        if(name == admin.name ){
+      if(password == admin.password){
+        print('admin');
+        return true;
+        }
+        }
+    for(int i = 0;i< studentList.length;i++){
+        if(name == studentList[i].name){
+            if(password == studentList[i].password){
+                print('student');
+                return true;
+            }          
+        }
+
+    }
+  return false;
 }
+}
+

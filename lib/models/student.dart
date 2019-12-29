@@ -3,7 +3,7 @@ class Student{
 int _id;
 String _name;
 String _password;
-
+String _per;
 Student();
 
 int get id => _id;

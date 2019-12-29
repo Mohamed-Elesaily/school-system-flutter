@@ -5,6 +5,18 @@ List<Map<String,String>> _login =[
   "name":"admin",
   "password":"1234",
   "priority":"0"   //admin
+},
+
+{
+  "name":"Mohamed Mohamed",
+  "password":"0123",
+  "priority":"2"   //Teacher
+},
+
+{
+  "name":"Mohamed Ahmed",
+  "password":"0123",
+  "priority":"2"   //Student
 }
 ];
 Check();

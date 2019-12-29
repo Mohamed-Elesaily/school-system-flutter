@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school/models/annoucment.dart';
+import 'package:school/models/student.dart';
 import 'package:school/utils/database_helper.dart';
 
 class Works extends StatefulWidget {
@@ -10,12 +11,14 @@ class Works extends StatefulWidget {
 class _WorksState extends State<Works> {
   DatabaseHelper helper = DatabaseHelper();
   Annoucment annoucment = Annoucment('_title', '_description');
-
-  String _per = "0";
+  Student student = Student();
+  String _per = "1";
   String _subject="";
-  String _activity ="m";
+  String _activity =" ";
   final _title = TextEditingController();
   final _content = TextEditingController();
+  final _name = TextEditingController();
+  final _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return _chooseUsr(_per);
@@ -26,11 +29,11 @@ class _WorksState extends State<Works> {
       case '0':
         return admin();
         break;
-      case '1':
-        return student();
-        break;
       case '2':
-        return admin();
+        return studentWidget();
+        break;
+      case '1':
+        return teacher();
         break;
       default: return ListView();  
     }
@@ -133,7 +136,9 @@ class _WorksState extends State<Works> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            controller: _name, 
             decoration: InputDecoration(
+
                 labelText: 'Name',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0))),
@@ -145,38 +150,14 @@ class _WorksState extends State<Works> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            controller: _password,
             decoration: InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0))),
           ),
         ),
-        // Row(
-        //   children: <Widget>[
-        //     DropdownButton<String>(
-        //       items: [
-        //         DropdownMenuItem(
-        //           value: "1",
-        //           child: Text(
-        //             "First",
-        //           ),
-        //         ),
-        //         DropdownMenuItem(
-        //           value: "2",
-        //           child: Text(
-        //             "Second",
-        //           ),
-        //         ),
-        //       ],
-        //       onChanged: (value) {
-        //         setState(() {
-        //           _m = value;
-        //         });
-        //       },
-        //       value: _m,
-        //     ),
-        //   ],
-        // ),
+      
         Padding(
           padding: const EdgeInsets.only(right: 150.0, left: 9, top: 15),
           child: TextField(
@@ -204,7 +185,15 @@ class _WorksState extends State<Works> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           color: Colors.blue,
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              student.name = _name.text;
+              student.password = _password.text;
+              _saveStudent();
+              print('add student');
+
+            });
+          },
         ),
 
         Divider(
@@ -214,7 +203,7 @@ class _WorksState extends State<Works> {
     );
   }
 
-  ListView student() {
+  ListView studentWidget() {
     
     return ListView(
       children: <Widget>[
@@ -235,21 +224,20 @@ class _WorksState extends State<Works> {
             ],
             rows: [
               DataRow(cells: [
-                DataCell(Text("Arabic", style: rowStyle()),
-                    showEditIcon: true, onTap: () {}),
-                DataCell(Text("20", style: rowStyle()))
+                DataCell(Text("Arabic", style: rowStyle()),),
+                DataCell(Text(" ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("English", style: rowStyle())),
-                DataCell(Text("20", style: rowStyle()))
+                DataCell(Text(" ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("Math", style: rowStyle())),
-                DataCell(Text("20", style: rowStyle()))
+                DataCell(Text(" ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("$_subject", style: rowStyle())),
-                DataCell(Text("", style: rowStyle())),
+                DataCell(Text(" ", style: rowStyle())),
               ])
             ],
           ),
@@ -327,12 +315,111 @@ class _WorksState extends State<Works> {
             activity("Volleyball"),
            
 
-        ],)
+        ],),
+        SizedBox(
+          height: 30,
+        ),
+        InkWell(
+              child: CircleAvatar(
+                child: Text(
+                  'Pay',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                radius: 50,
+              ),
+              onTap: () {
+                setState(() {
+                
+                 
+                });
+              },
+            ),
+            SizedBox(
+          height: 30,
+        ),
         
       ],
     );
   }
 
+  ListView teacher(){
+     return ListView(
+      children: <Widget>[
+        SizedBox(
+          height: 50,
+        ),
+        //_______________________________annoucment__________________________ //
+
+        Padding(
+          padding: const EdgeInsets.only(right: 100),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(40.0),
+                  topRight: const Radius.circular(40.0)),
+              color: Colors.blue,
+            ),
+            height: 60,
+            child: Center(
+              child: Text(
+                "New Announcment",
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 50,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _title,
+            decoration: InputDecoration(
+                labelText: 'Title',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _content,
+            decoration: InputDecoration(
+                labelText: 'Content',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+          ),
+        ),
+        FlatButton(
+          child: Text(
+            'Submit',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          color: Colors.blue,
+          onPressed: () {
+            setState(() {
+                          annoucment.title = _title.text;
+                          annoucment.description = _content.text;
+									    	  debugPrint("Save button clicked");
+									    	  _save();
+									    	});
+          },
+        ),
+        Divider(
+          height: 20,
+        ),
+
+      ],
+    );
+  }
   TextStyle rowStyle() {
     return TextStyle(fontSize: 20);
   }
@@ -375,6 +462,23 @@ class _WorksState extends State<Works> {
 		}
 
 	}
+    void _saveStudent() async {
+
+	
+		int result;
+		if (student.id != null) {  // Case 1: Update operation
+			result = await helper.updateStudent(student);
+		} else { // Case 2: Insert Operation
+			result = await helper.insertStudent(student);
+		}
+
+		if (result != 0) {  // Success
+			_showAlertDialog('Status', 'Student Saved Successfully');
+		} else {  // Failure
+			_showAlertDialog('Status', 'Problem Saving Student');
+		}
+
+	}
   void _showAlertDialog(String title, String message) {
 
 		AlertDialog alertDialog = AlertDialog(
@@ -386,4 +490,9 @@ class _WorksState extends State<Works> {
 				builder: (_) => alertDialog
 		);
 	}
+
+
+
+
+
 }

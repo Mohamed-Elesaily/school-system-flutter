@@ -47,7 +47,7 @@ class _NewsState extends State<News> {
                     
                     ),
                     leading: CircleAvatar(
-                      child: Text('A' ),
+                      child: Icon(Icons.perm_identity),
                     ),
                   ),
                 ),

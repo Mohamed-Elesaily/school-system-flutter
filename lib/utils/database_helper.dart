@@ -1,4 +1,5 @@
 import 'package:school/models/annoucment.dart';
+import 'package:school/models/student.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'dart:io';
@@ -16,7 +17,13 @@ class DatabaseHelper {
 	String colId = 'id';
 	String colTitle = 'title';
 	String colDescription = 'description';
-
+  
+  
+  String colIdstudent = 'id';
+  String studentTable = 'student_table';
+	String colname = 'name';
+	String colpassword = 'password';
+  String colper = 'per';
 
 	DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
@@ -51,6 +58,10 @@ class DatabaseHelper {
 		await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, '
 				'$colDescription TEXT)',
         );
+    
+		await db.execute('CREATE TABLE $studentTable($colIdstudent INTEGER PRIMARY KEY AUTOINCREMENT, $colname TEXT, '
+				'$colpassword TEXT,$colper TEXT)',
+        );    
 	}
 
 	// Fetch Operation: Get all note objects from database
@@ -105,6 +116,59 @@ class DatabaseHelper {
 
 		return noteList;
 	}
+
+
+
+
+
+
+
+
+
+
+          //______________STUDENT CRUD__________________//
+
+
+	Future<List<Map<String, dynamic>>> getStudentMapList() async {
+		Database db = await this.database;
+
+//		var result = await db.rawQuery('SELECT * FROM $noteTable order by $colPriority ASC');
+		var result = await db.query(studentTable);
+		return result;
+	}
+  	// Insert Operation: Insert a Note object to database
+	Future<int> insertStudent(Student student) async {
+		Database db = await this.database;
+		var result = await db.insert(studentTable, student.toMap());
+		return result;
+	}
+
+	// Update Operation: Update a Note object and save it to database
+	Future<int> updateStudent(Student student) async {
+		var db = await this.database;
+		var result = await db.update(noteTable, student.toMap(), where: '$colIdstudent = ?', whereArgs: [student.id]);
+		return result;
+	}
+  	Future<int> getCountStudent() async {
+		Database db = await this.database;
+		List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $studentTable');
+		int result = Sqflite.firstIntValue(x);
+		return result;
+	}
+  Future<List<Student>> getStudentList() async {
+
+		var noteMapList = await getStudentMapList(); // Get 'Map List' from database
+		int count = noteMapList.length;         // Count the number of map entries in db table
+
+		List<Student> noteList = List<Student>();
+		// For loop to create a 'Note List' from a 'Map List'
+		for (int i = 0; i < count; i++) {
+			noteList.add(Student.fromMapObject(noteMapList[i]));
+		}
+
+		return noteList;
+	}
+  
 
 }
 
