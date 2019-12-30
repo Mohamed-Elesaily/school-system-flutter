@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school/models/annoucment.dart';
 import 'package:school/models/student.dart';
+import 'package:school/pages/Login.dart';
 import 'package:school/utils/database_helper.dart';
 
 class Works extends StatefulWidget {
@@ -12,7 +13,7 @@ class _WorksState extends State<Works> {
   DatabaseHelper helper = DatabaseHelper();
   Annoucment annoucment = Annoucment('_title', '_description');
   Student student = Student();
-  String _per = "1";
+  String _per = "2";
   String _subject="";
   String _activity =" ";
   final _title = TextEditingController();
@@ -21,6 +22,17 @@ class _WorksState extends State<Works> {
   final _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
+     if (id == -1){
+      setState(() {
+        _per = '1';//teacher 
+      });
+    }else if(id == -2){
+      setState(() {
+        _per ='0';
+      });
+    }else{
+
+    }
     return _chooseUsr(_per);
   }
 
@@ -188,8 +200,11 @@ class _WorksState extends State<Works> {
           onPressed: () {
             setState(() {
               student.name = _name.text;
+              print(student.name);
               student.password = _password.text;
+              print(student.password);
               _saveStudent();
+
               print('add student');
 
             });
@@ -468,6 +483,7 @@ class _WorksState extends State<Works> {
 		int result;
 		if (student.id != null) {  // Case 1: Update operation
 			result = await helper.updateStudent(student);
+
 		} else { // Case 2: Insert Operation
 			result = await helper.insertStudent(student);
 		}

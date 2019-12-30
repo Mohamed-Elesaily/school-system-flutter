@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
       body: DefaultTabController(
         length: 3,
         child: Scaffold(
-           drawer: Drawer(),
+           
           appBar: AppBar(
             
             bottom: TabBar(

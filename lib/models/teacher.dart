@@ -1,4 +1,5 @@
 class Teacher{
+  Teacher();
   String _name ="Teacher";    
   String _password="0234";
   String _per = '1';

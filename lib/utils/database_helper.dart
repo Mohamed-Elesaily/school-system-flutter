@@ -19,11 +19,11 @@ class DatabaseHelper {
 	String colDescription = 'description';
   
   
-  String colIdstudent = 'id';
+  String colIdstudent = 'ids';
   String studentTable = 'student_table';
 	String colname = 'name';
 	String colpassword = 'password';
-  String colper = 'per';
+  // String colper = 'per';
 
 	DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
@@ -60,7 +60,7 @@ class DatabaseHelper {
         );
     
 		await db.execute('CREATE TABLE $studentTable($colIdstudent INTEGER PRIMARY KEY AUTOINCREMENT, $colname TEXT, '
-				'$colpassword TEXT,$colper TEXT)',
+				'$colpassword TEXT)',
         );    
 	}
 
@@ -146,7 +146,7 @@ class DatabaseHelper {
 	// Update Operation: Update a Note object and save it to database
 	Future<int> updateStudent(Student student) async {
 		var db = await this.database;
-		var result = await db.update(noteTable, student.toMap(), where: '$colIdstudent = ?', whereArgs: [student.id]);
+		var result = await db.update(studentTable, student.toMap(), where: '$colIdstudent = ?', whereArgs: [student.id]);
 		return result;
 	}
   	Future<int> getCountStudent() async {
@@ -165,7 +165,7 @@ class DatabaseHelper {
 		for (int i = 0; i < count; i++) {
 			noteList.add(Student.fromMapObject(noteMapList[i]));
 		}
-
+ 
 		return noteList;
 	}
   

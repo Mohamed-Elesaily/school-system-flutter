@@ -1,4 +1,5 @@
 class Admin{
+  Admin();
 String _name = "Admin";
 String _password="1234";
 String _per = '0';

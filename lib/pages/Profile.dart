@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:school/pages/Login.dart';
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  String _per;
   @override
   Widget build(BuildContext context) {
+    
+    if (id == -1){
+      setState(() {
+        _per = '1';//teacher 
+      });
+    }else if(id == -2){
+      setState(() {
+        _per ='0';
+      });
+    }else{
+
+    }
     return Scaffold(
-      body: _chooseUsr('2')
+      body: _chooseUsr(_per)
     );
   }
   //____________________functions_____________________//

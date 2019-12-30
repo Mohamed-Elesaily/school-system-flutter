@@ -4,24 +4,32 @@ import 'package:school/models/student.dart';
 import 'package:school/models/teacher.dart';
 import 'package:school/utils/database_helper.dart';
 
-
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
+int id;
 class Login extends StatefulWidget {
+  String _per;
+   get per =>_per;
   @override
   _LoginState createState() => _LoginState();
 }
   
 class _LoginState extends State<Login> {
+  
+  
   TextEditingController _name = TextEditingController();
   TextEditingController _password = TextEditingController();
   DatabaseHelper databaseHelper = DatabaseHelper();
-  Teacher teacher;
-  Admin admin;
+  Teacher teacher = Teacher();
+  Admin admin = Admin() ;
   List<Student> studentList;
-
+ 
   @override
   Widget build(BuildContext context) {
       if (studentList == null) {
 			studentList = List<Student>();
+      updateListView();
+      print(studentList);
 		}
     return Scaffold(
       body: Stack(
@@ -89,7 +97,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           SizedBox(
-                            height: 25,
+                            height: 25, 
                           ),
                           TextField(
                             controller: _password,
@@ -121,7 +129,16 @@ class _LoginState extends State<Login> {
                         radius: 50,
                       ),
                       onTap: () {
-                        check(_name.text, _password.text);
+                        setState(() {
+                          print(_name.text);
+                          print(_password.text);
+                          print(id);
+                          print(check(_name.text, _password.text));
+                          if(check(_name.text, _password.text) == true){
+
+                          Navigator.pushNamed(context, '/');}
+                        });
+                        
                       },
                     ),
                     
@@ -158,20 +175,25 @@ class _LoginState extends State<Login> {
 bool check(String name,String password){
     if(name == teacher.name ){
       if(password == teacher.password){
-        print('teacher');
-        return true;
+        setState(() {
+           id = -1;
+        });
+        
+        return true; 
         }
         }
         if(name == admin.name ){
       if(password == admin.password){
-        print('admin');
+         setState(() {
+           id = -2;
+        });
         return true;
         }
         }
     for(int i = 0;i< studentList.length;i++){
         if(name == studentList[i].name){
             if(password == studentList[i].password){
-                print('student');
+               id = studentList[i].id;
                 return true;
             }          
         }
@@ -179,5 +201,19 @@ bool check(String name,String password){
     }
   return false;
 }
+ void updateListView() {
+
+		final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+		dbFuture.then((database) {
+
+			Future<List<Student>> noteListFuture = databaseHelper.getStudentList();
+			noteListFuture.then((noteList) {
+				setState(() {
+				  this.studentList = noteList;
+				  // this.count = noteList.length;
+				});
+			});
+		});
+  }
 }
 
