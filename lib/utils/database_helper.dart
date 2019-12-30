@@ -29,6 +29,8 @@ class DatabaseHelper {
   String colen = 'english';
   String colmath = 'math';
   String colsecond = 'second';
+   String colsubject = 'subject';
+     String colactivity = 'activity';
   // String colper = 'per';
 
 	DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
@@ -52,7 +54,7 @@ class DatabaseHelper {
 	Future<Database> initializeDatabase() async {
 		// Get the directory path for both Android and iOS to store database.
 		Directory directory = await getApplicationDocumentsDirectory();
-		String path = directory.path + 'm.db';
+		String path = directory.path + 'school.db';
 
 		// Open/create the database at a given path
 		var notesDatabase = await openDatabase(path, version: 1, onCreate: _createDb);
@@ -66,7 +68,7 @@ class DatabaseHelper {
         );
     
 		await db.execute('CREATE TABLE $studentTable($colIdstudent INTEGER PRIMARY KEY AUTOINCREMENT, $colname TEXT, '
-				'$colpassword TEXT, $colage TEXT, $colaca TEXT, $colar TEXT, $colen TEXT, $colmath TEXT, $colsecond TEXT )',
+				'$colpassword TEXT, $colage TEXT, $colaca TEXT, $colar TEXT, $colen TEXT, $colmath TEXT, $colsecond TEXT, $colsubject TEXT,$colactivity TEXT )',
         );    
 	}
 

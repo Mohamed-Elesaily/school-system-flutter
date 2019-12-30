@@ -19,8 +19,7 @@ class _WorksState extends State<Works> {
   Annoucment annoucment = Annoucment('_title', '_description');
   Student student = Student();
   String _per = "2";
-  String _subject = "";
-  String _activity = " ";
+
   final _title = TextEditingController();
   final _content = TextEditingController();
   final _name = TextEditingController();
@@ -304,7 +303,7 @@ class _WorksState extends State<Works> {
                 DataCell(Text("${target.math} ", style: rowStyle()))
               ]),
               DataRow(cells: [
-                DataCell(Text("$_subject", style: rowStyle())),
+                DataCell(Text("${target.subject}", style: rowStyle())),
                 DataCell(Text("${target.second} ", style: rowStyle())),
               ])
             ],
@@ -315,7 +314,7 @@ class _WorksState extends State<Works> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Text('Activity', style: TextStyle(fontSize: 30)),
-            Text('$_activity', style: rowStyle()),
+            Text('${target.activity}', style: rowStyle()),
           ],
         ),
         Divider(),
@@ -345,7 +344,9 @@ class _WorksState extends State<Works> {
               ),
               onTap: () {
                 setState(() {
-                  _subject = "French";
+                  target.subject = "French";
+                 _saveStudent();
+
                 });
               },
             ),
@@ -363,7 +364,9 @@ class _WorksState extends State<Works> {
               ),
               onTap: () {
                 setState(() {
-                  _subject = "German";
+                  target.subject = "German";
+                 _saveStudent();
+
                 });
               },
             ),
@@ -544,7 +547,8 @@ class _WorksState extends State<Works> {
         ),
         onTap: () {
           setState(() {
-            _activity = "$activity";
+            target.activity = "$activity";
+            _saveStudent();
           });
         });
   }
@@ -578,13 +582,13 @@ class _WorksState extends State<Works> {
       result = await databaseHelper.insertStudent(student);
     }
 
-    if (result != 0) {
-      // Success
-      _showAlertDialog('Status', 'Student Saved Successfully');
-    } else {
-      // Failure
-      _showAlertDialog('Status', 'Problem Saving Student');
-    }
+    // if (result != 0) {
+    //   // Success
+    //   _showAlertDialog('Status', 'Student Saved Successfully');
+    // } else {
+    //   // Failure
+    //   _showAlertDialog('Status', 'Problem Saving Student');
+    // }
   }
 
   void _showAlertDialog(String title, String message) {

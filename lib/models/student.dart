@@ -9,6 +9,8 @@ String _arabic;
 String _english;
 String _math;
 String _second;
+String _subject;
+String _activity;
 Student();
 
 int get id => _id;
@@ -21,6 +23,8 @@ String get arabic =>_arabic;
 String get english =>_english;
 String get math => _math;
 String get second => _second;
+String get subject => _subject;
+String get activity => _activity;
 
 set name(String name){
   this._name = name;
@@ -29,7 +33,12 @@ set password(String password){
 
   this._password = password;
 }
-
+set subject(String subject){
+  this._subject = subject;
+}
+set activity(String activity){
+  this._activity = activity;
+}
 
 set age(String age) {this._age = age;}
 set academic(String aca) {this._academic = aca; }
@@ -53,6 +62,8 @@ Map<String,dynamic> toMap(){
   map['english'] = this._english;
   map['math'] = this._math;
   map['second'] = this._second;
+  map['subject'] = this._subject;
+  map['activity'] = this._activity;
 return map;
 }
 
@@ -67,6 +78,8 @@ Student.fromMapObject(Map<String, dynamic> map) {
     this._english = map['english'];
     this._math = map['math'];
     this._second = map['second'];
+    this._activity = map['activity'];
+    this._subject = map['subject'];
 	}
 
 }
