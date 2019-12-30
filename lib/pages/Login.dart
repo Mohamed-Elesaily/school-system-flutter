@@ -26,11 +26,14 @@ class _LoginState extends State<Login> {
  
   @override
   Widget build(BuildContext context) {
-      if (studentList == null) {
+  
+       if (studentList == null) {
 			studentList = List<Student>();
       updateListView();
       print(studentList);
 		}
+ 
+    
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -130,9 +133,7 @@ class _LoginState extends State<Login> {
                       ),
                       onTap: () {
                         setState(() {
-                          print(_name.text);
-                          print(_password.text);
-                          print(id);
+                        
                           print(check(_name.text, _password.text));
                           if(check(_name.text, _password.text) == true){
 
@@ -175,18 +176,18 @@ class _LoginState extends State<Login> {
 bool check(String name,String password){
     if(name == teacher.name ){
       if(password == teacher.password){
-        setState(() {
+       
            id = -1;
-        });
+        
         
         return true; 
         }
         }
         if(name == admin.name ){
       if(password == admin.password){
-         setState(() {
+        
            id = -2;
-        });
+      
         return true;
         }
         }

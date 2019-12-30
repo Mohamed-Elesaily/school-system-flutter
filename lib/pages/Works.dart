@@ -3,14 +3,15 @@ import 'package:school/models/annoucment.dart';
 import 'package:school/models/student.dart';
 import 'package:school/pages/Login.dart';
 import 'package:school/utils/database_helper.dart';
-
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 class Works extends StatefulWidget {
   @override
   _WorksState createState() => _WorksState();
 }
 
 class _WorksState extends State<Works> {
-  DatabaseHelper helper = DatabaseHelper();
+  DatabaseHelper databaseHelper = DatabaseHelper();
   Annoucment annoucment = Annoucment('_title', '_description');
   Student student = Student();
   String _per = "2";
@@ -22,6 +23,11 @@ class _WorksState extends State<Works> {
   final _password = TextEditingController();
   final _age = TextEditingController();
   final _aca = TextEditingController();
+   
+  Student target = Student();
+  List<Student> studentList;
+
+  int _count = 0;
   @override
   Widget build(BuildContext context) {
      if (id == -1){
@@ -33,11 +39,30 @@ class _WorksState extends State<Works> {
         _per ='0';
       });
     }else{
-
+           _per ='2';
+        updateListView();
+        for(int i=0; i< _count; i++){
+          if(id == studentList[i].id){
+            target = studentList[i];
+          }
+        }
     }
     return _chooseUsr(_per);
   }
+     void updateListView() {
 
+		final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+		dbFuture.then((database) {
+
+			Future<List<Student>> noteListFuture = databaseHelper.getStudentList();
+			noteListFuture.then((noteList) {
+				setState(() {
+				  this.studentList = noteList;
+          this._count = noteList.length;
+				});
+			});
+		});
+  }
   ListView _chooseUsr(String priority) {
     switch (priority) {
       case '0':
@@ -245,19 +270,19 @@ class _WorksState extends State<Works> {
             rows: [
               DataRow(cells: [
                 DataCell(Text("Arabic", style: rowStyle()),),
-                DataCell(Text(" ", style: rowStyle()))
+                DataCell(Text("${target.arabic} ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("English", style: rowStyle())),
-                DataCell(Text(" ", style: rowStyle()))
+                DataCell(Text("${target.english} ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("Math", style: rowStyle())),
-                DataCell(Text(" ", style: rowStyle()))
+                DataCell(Text("${target.math} ", style: rowStyle()))
               ]),
               DataRow(cells: [
                 DataCell(Text("$_subject", style: rowStyle())),
-                DataCell(Text(" ", style: rowStyle())),
+                DataCell(Text("${target.second} ", style: rowStyle())),
               ])
             ],
           ),
@@ -470,9 +495,9 @@ class _WorksState extends State<Works> {
 	
 		int result;
 		if (annoucment.id != null) {  // Case 1: Update operation
-			result = await helper.updateNote(annoucment);
+			result = await databaseHelper.updateNote(annoucment);
 		} else { // Case 2: Insert Operation
-			result = await helper.insertNote(annoucment);
+			result = await databaseHelper.insertNote(annoucment);
 		}
 
 		if (result != 0) {  // Success
@@ -487,10 +512,10 @@ class _WorksState extends State<Works> {
 	
 		int result;
 		if (student.id != null) {  // Case 1: Update operation
-			result = await helper.updateStudent(student);
+			result = await databaseHelper.updateStudent(student);
 
 		} else { // Case 2: Insert Operation
-			result = await helper.insertStudent(student);
+			result = await databaseHelper.insertStudent(student);
 		}
 
 		if (result != 0) {  // Success

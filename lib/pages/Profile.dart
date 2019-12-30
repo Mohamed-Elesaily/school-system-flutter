@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:school/models/student.dart';
 import 'package:school/pages/Login.dart';
+import 'package:school/utils/database_helper.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  List<Student> studentList;
+  Student target = Student();
   String _per;
+  int _count = 0;
   @override
   Widget build(BuildContext context) {
     
     if (id == -1){
-      setState(() {
+      
         _per = '1';//teacher 
-      });
+    
     }else if(id == -2){
-      setState(() {
+      
         _per ='0';
-      });
+      
     }else{
+
+        _per ='2';
+        updateListView();
+        for(int i=0; i< _count; i++){
+          if(id == studentList[i].id){
+            target = studentList[i];
+          }
+        }
+
 
     }
     return Scaffold(
@@ -26,6 +43,20 @@ class _ProfileState extends State<Profile> {
     );
   }
   //____________________functions_____________________//
+     void updateListView() {
+
+		final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+		dbFuture.then((database) {
+
+			Future<List<Student>> noteListFuture = databaseHelper.getStudentList();
+			noteListFuture.then((noteList) {
+				setState(() {
+				  this.studentList = noteList;
+          this._count = noteList.length;
+				});
+			});
+		});
+  }
     ListView _chooseUsr(String priority) {
     switch (priority) {
       case '0':
@@ -157,21 +188,21 @@ class _ProfileState extends State<Profile> {
                     height: 60,
                   ),
                   SizedBox(height: 50,),
-                  Text("Name: mohamed",
+                  Text("Name: ${target.name}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize:20
                   ),
                   ),
                   SizedBox(height: 10,),
-                  Text("Age: 21",
+                  Text("Age: ${target.age}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize:20
                   ),
                   ),
                   SizedBox(height: 10,),
-                  Text("Acadmic Year: 4",
+                  Text("Acadmic Year: ${target.academic}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize:20
