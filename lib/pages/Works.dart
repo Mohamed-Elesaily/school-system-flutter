@@ -363,7 +363,7 @@ class _WorksState extends State<Works> {
               ),
               onTap: () {
                 setState(() {
-                  _subject = "Germany";
+                  _subject = "German";
                 });
               },
             ),
@@ -399,7 +399,7 @@ class _WorksState extends State<Works> {
             radius: 50,
           ),
           onTap: () {
-            setState(() {});
+            Navigator.pushNamed(context, '/pay');
           },
         ),
         SizedBox(
