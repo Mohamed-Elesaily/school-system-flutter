@@ -101,6 +101,20 @@ class _ProfileState extends State<Profile> {
                     height: 60,
                   ),
                   SizedBox(height: 50,),
+                  Text('jop: computer teacher',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize:20
+                  ),
+                  ),
+                  SizedBox(height: 20,),
+                  Text('Experince: 6 years',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize:20
+                  ),
+                  ),
+                  SizedBox(height: 20,),
                   Text("Phone: +015708090",
                   style: TextStyle(
                     color: Colors.white,

@@ -35,6 +35,14 @@ class _LoginState extends State<Login> {
  
     
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh),
+        onPressed: (){
+          setState(() {
+            updateListView();
+          });
+        },
+      ),
       body: Stack(
         children: <Widget>[
           // Container(
