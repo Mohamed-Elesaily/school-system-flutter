@@ -23,6 +23,12 @@ class DatabaseHelper {
   String studentTable = 'student_table';
 	String colname = 'name';
 	String colpassword = 'password';
+  String colage ='age';
+  String colaca = 'academic';
+  String colar = 'arabic';
+  String colen = 'english';
+  String colmath = 'math';
+  String colsecond = 'second';
   // String colper = 'per';
 
 	DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
@@ -60,7 +66,7 @@ class DatabaseHelper {
         );
     
 		await db.execute('CREATE TABLE $studentTable($colIdstudent INTEGER PRIMARY KEY AUTOINCREMENT, $colname TEXT, '
-				'$colpassword TEXT)',
+				'$colpassword TEXT, $colage TEXT, $colaca TEXT, $colar TEXT, $colen TEXT, $colmath TEXT, $colsecond TEXT )',
         );    
 	}
 

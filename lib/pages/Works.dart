@@ -20,6 +20,8 @@ class _WorksState extends State<Works> {
   final _content = TextEditingController();
   final _name = TextEditingController();
   final _password = TextEditingController();
+  final _age = TextEditingController();
+  final _aca = TextEditingController();
   @override
   Widget build(BuildContext context) {
      if (id == -1){
@@ -173,6 +175,7 @@ class _WorksState extends State<Works> {
         Padding(
           padding: const EdgeInsets.only(right: 150.0, left: 9, top: 15),
           child: TextField(
+            controller: _age,
             decoration: InputDecoration(
                 labelText: 'Age',
                 border: OutlineInputBorder(
@@ -182,6 +185,7 @@ class _WorksState extends State<Works> {
         Padding(
           padding: const EdgeInsets.only(right: 150.0, left: 9, top: 15),
           child: TextField(
+            controller: _aca,
             decoration: InputDecoration(
                 labelText: 'Acadmic Year',
                 border: OutlineInputBorder(
@@ -203,8 +207,9 @@ class _WorksState extends State<Works> {
               print(student.name);
               student.password = _password.text;
               print(student.password);
+              student.age = _age.text;
+              student.academic = _aca.text;
               _saveStudent();
-
               print('add student');
 
             });
