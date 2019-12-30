@@ -158,8 +158,7 @@ class _MarkState extends State<Mark> {
                       target.second = _second.text;
                       
                     });
-                     databaseHelper.updateStudent(target);
-                     print(databaseHelper.updateStudent(target));
+                     _save();
               },
             ),
        )
@@ -186,5 +185,31 @@ class _MarkState extends State<Mark> {
         });
       });
     });
+  }
+  void _save() async {
+    int result;
+    if (target.id != null) {
+      // Case 1: Update operation
+      result = await databaseHelper.updateStudent(target);
+    } else {
+      // Case 2: Insert Operation
+      result = await databaseHelper.insertStudent(target);
+    }
+
+    if (result != 0) {
+      // Success
+      _showAlertDialog('Status', 'Mark Saved Successfully');
+    } else {
+      // Failure
+      _showAlertDialog('Status', 'Problem Saving Marks');
+    }
+  }
+
+  void _showAlertDialog(String title, String message) {
+    AlertDialog alertDialog = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    showDialog(context: context, builder: (_) => alertDialog);
   }
 }

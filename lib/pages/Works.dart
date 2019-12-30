@@ -33,17 +33,18 @@ class _WorksState extends State<Works> {
 
   int _count = 0;
   @override
+  
   Widget build(BuildContext context) {
     if (id == -1) {
-      setState(() {
+      
         _per = '1'; //teacher
-      });
+    
     } else if (id == -2) {
-      setState(() {
+   
         _per = '0';
-      });
+     
     } else {
-      setState(() {
+     
         _per = '2';
         if (studentList == null) {
           studentList = List<Student>();
@@ -57,15 +58,16 @@ class _WorksState extends State<Works> {
             
           }
         }
-      });
+     
     }
+    print(target.arabic);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.refresh),
         onPressed: () {
-          setState(() {
+        
             updateListView();
-          });
+       
         },
       ),
       body: _chooseUsr(_per),
